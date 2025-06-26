@@ -1,4 +1,5 @@
- "version": 2,
+{
+  "version": 2,
   "name": "satsspark-wallet",
   "builds": [
     {
@@ -11,7 +12,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!static/.*).*)",
+      "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     }
   ],

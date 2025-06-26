@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 黑色背景圆角矩形 -->
+  <rect width="64" height="64" fill="#000000" rx="12"/>
+  
+  <!-- 白色S字母 -->
+  <path d="M16 24C16 19.58 19.58 16 24 16H32C36.42 16 40 19.58 40 24C40 28.42 36.42 32 32 32H24C19.58 32 16 35.58 16 40C16 44.42 19.58 48 24 48H40C44.42 48 48 44.42 48 40V36" 
+        stroke="#FFFFFF" 
+        stroke-width="4" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- 橙色装饰点 -->
+  <circle cx="48" cy="24" r="3" fill="#FF8C00"/>
+  <circle cx="16" cy="40" r="3" fill="#FF8C00"/>
+</svg> 

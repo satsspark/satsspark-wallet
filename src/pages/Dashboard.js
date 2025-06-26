@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWallet } from '../contexts/WalletContext';
 import { 
@@ -78,30 +78,28 @@ function Dashboard() {
     );
   };
 
-  // 获取比特币价格
-  const fetchBtcPrice = useCallback(async () => {
-    try {
-      setPriceLoading(true);
-      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-      const data = await response.json();
-      setBtcPrice(data.bitcoin.usd);
-    } catch (error) {
-      console.error('获取BTC价格失败:', error);
-      // 如果获取失败，使用默认价格
-      if (!btcPrice) {
-        setBtcPrice(107455); // 默认价格
-      }
-    } finally {
-      setPriceLoading(false);
-    }
-  }, [btcPrice]);
-
   // 初始化时获取价格，然后每小时更新一次
   useEffect(() => {
+    // 获取比特币价格
+    const fetchBtcPrice = async () => {
+      try {
+        setPriceLoading(true);
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+        const data = await response.json();
+        setBtcPrice(data.bitcoin.usd);
+      } catch (error) {
+        console.error('获取BTC价格失败:', error);
+        // 如果获取失败，使用默认价格
+        setBtcPrice(prev => prev || 107455); // 默认价格
+      } finally {
+        setPriceLoading(false);
+      }
+    };
+
     fetchBtcPrice();
     const interval = setInterval(fetchBtcPrice, 60 * 60 * 1000); // 1小时 = 60分钟 * 60秒 * 1000毫秒
     return () => clearInterval(interval);
-  }, [fetchBtcPrice]);
+  }, []); // 空依赖数组，只在组件挂载时运行一次
 
   // 当钱包状态改变时，主动获取交易记录
   useEffect(() => {

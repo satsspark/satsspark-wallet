@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWallet } from '../contexts/WalletContext';
 import { 
@@ -79,7 +79,7 @@ function Dashboard() {
   };
 
   // 获取比特币价格
-  const fetchBtcPrice = async () => {
+  const fetchBtcPrice = useCallback(async () => {
     try {
       setPriceLoading(true);
       const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
@@ -94,14 +94,14 @@ function Dashboard() {
     } finally {
       setPriceLoading(false);
     }
-  };
+  }, [btcPrice]);
 
   // 初始化时获取价格，然后每小时更新一次
   useEffect(() => {
     fetchBtcPrice();
     const interval = setInterval(fetchBtcPrice, 60 * 60 * 1000); // 1小时 = 60分钟 * 60秒 * 1000毫秒
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchBtcPrice]);
 
   // 当钱包状态改变时，主动获取交易记录
   useEffect(() => {
